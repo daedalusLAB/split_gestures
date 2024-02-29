@@ -98,6 +98,7 @@ def main():
     parser.add_argument('--input', type=str, help='Path to the videos folder')
     parser.add_argument('--model', type=str, help='Path to the model')
     parser.add_argument('--output', type=str, help='Path to the output folder')
+    parser.add_argument('--nconsecutive', type=int, help='Number of consecutive frames to consider a gesture', default=3)
 
     args = parser.parse_args()    
 
@@ -128,7 +129,7 @@ def main():
         video_name = os.path.splitext(os.path.basename(video_path))[0]
         tmp_file_name = f"/tmp/tmp_{np.random.randint(1000000000)}.jpg"
         frames = get_frames(video_path)
-        found_gestures = recognize_gestures(recognizer, frames, tmp_file_name, 3)
+        found_gestures = recognize_gestures(recognizer, frames, tmp_file_name, args.nconsecutive)
         gesture_timestamps = process_gestures(found_gestures)
         create_gesture_videos(video_path, video_name, gesture_timestamps, output_path)
 
