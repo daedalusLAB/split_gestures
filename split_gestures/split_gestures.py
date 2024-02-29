@@ -41,8 +41,12 @@ def recognize_gestures(recognizer, frames, tmp_file_name, num_consecutive):
         image = mp.Image.create_from_file(tmp_file_name)
         recognition_result = recognizer.recognize(image)
         if len(recognition_result.gestures) > 0:
+            # # print all the gestures recognized and their scores
+            # for gesture in recognition_result.gestures[0]:
+            #     print(f"Gesture: {gesture}")
+
             top_gesture = recognition_result.gestures[0][0]
-            if top_gesture.category_name == "close" and top_gesture.score > 0.7:
+            if top_gesture.score > 0.7 and top_gesture.category_name != "none" and top_gesture.category_name != "":
                 if last_gesture == top_gesture.category_name:
                     consecutive_count += 1
                     if consecutive_count >= num_consecutive:
